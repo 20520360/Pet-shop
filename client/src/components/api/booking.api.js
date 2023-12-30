@@ -4,6 +4,9 @@ const bookingAPI = {
   getAllBooking: () => {
     return axiosClient.get("/booking/list");
   },
+  findAllMyBooking: (username) => {
+    return axiosClient.get(`/client/booking/list/${username}`);
+  },
   createBooking: (data, navigate) => {
     axiosClient
       .post("/booking/create", data)
@@ -12,8 +15,10 @@ const bookingAPI = {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
       });
+  },
+  actionBooking: (id, status) => {
+    return axiosClient.put("/booking/action", { id, status });
   },
 };
 

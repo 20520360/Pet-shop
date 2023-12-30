@@ -92,15 +92,22 @@ function Header({ onDataTransfer }) {
                   id="login-btn"
                   className="self-center p-2 rounded hover:bg-blue-600"
                 >
-                  Profile
+                  Trang cá nhân
                 </Link>
                 <button
                   onClick={handleLogout}
                   id="login-btn"
                   className="self-center p-2 rounded hover:bg-blue-600"
                 >
-                  Logout
+                  Đăng xuất
                 </button>
+                <Link
+                  to="/my-booking"
+                  id="login-btn"
+                  className="self-center p-2 rounded hover:bg-blue-600"
+                >
+                  Lịch sử booking
+                </Link>
               </>
             ) : (
               <>

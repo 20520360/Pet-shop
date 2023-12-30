@@ -9,7 +9,6 @@ const ContentBooking = () => {
   const getAllBooking = async () => {
     try {
       const bookingList = await bookingAPI.getAllBooking();
-      console.log(bookingList);
       setBookings(bookingList);
     } catch (error) {
       console.error(error);
@@ -19,6 +18,7 @@ const ContentBooking = () => {
   useEffect(() => {
     getAllBooking();
   }, []);
+
   const actionBooking = async (id, status) => {
     try {
       await bookingAPI.actionBooking(id, status);
@@ -126,25 +126,23 @@ const ContentBooking = () => {
                     <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap max-w-xs">
                       {booking.status === "Đang chờ" ? (
                         <>
-                          <a
-                            href="#"
+                          <button
                             className="text-indigo-600 hover:text-indigo-900"
                             onClick={() =>
                               actionBooking(booking._id, "Đã xác nhận")
                             }
                           >
                             Chấp nhận
-                          </a>
+                          </button>
                           <span className="text-gray-400"> | </span>
-                          <a
-                            href="#"
+                          <button
                             className="text-indigo-600 hover:text-indigo-900"
                             onClick={() =>
                               actionBooking(booking._id, "Đã từ chối")
                             }
                           >
                             Từ chối
-                          </a>
+                          </button>
                         </>
                       ) : (
                         <></>

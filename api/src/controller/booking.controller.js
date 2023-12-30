@@ -1,4 +1,5 @@
 const booking = require('../models/booking');
+const User = require('../models/user');
 
 exports.getAllBooking = async (req, res) => {
     try {
@@ -12,9 +13,15 @@ exports.getAllBooking = async (req, res) => {
 
 exports.createBooking = async (req, res) => {
     try {
-        const { serviceName, fullname, phone, email, address, dateBooking, typeAnimal, ageAnimal, weightAnimal, note } = req.body;
-        const newBooking = new booking({ serviceName, fullname, phone, email, address, dateBooking, typeAnimal, ageAnimal, weightAnimal, note });
+        const { serviceName, fullname, phone, email, address, dateBooking, typeAnimal, ageAnimal, weightAnimal, note, status, username } = req.body;
+        const newBooking = new booking({ serviceName, fullname, phone, email, address, dateBooking, typeAnimal, ageAnimal, weightAnimal, note, status });
         await newBooking.save();
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        user.myBooking.push(newBooking._id);
+        await user.save();
         res.status(201).json({ message: 'Booking created successfully' });
     } catch (error) {
         console.error(error);
@@ -31,6 +38,22 @@ exports.actionBooking = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
+    }
+};
+
+exports.findAllMyBooking = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const user = await User.findOne({ username }).populate('myBooking');
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        return res.status(200).json(user.myBooking);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Server error' });
     }
 };
 

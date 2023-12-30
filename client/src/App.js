@@ -19,6 +19,7 @@ import Feedback from "./components/page/Feedback.js";
 import Booking from "./components/page/Booking.js";
 import Search from "./components/page/Search.js";
 import Profile from "./components/page/Profile.js";
+import MyBooking from "./components/page/my-booking.js";
 function App() {
   const navigate = useNavigate();
   return (
@@ -36,6 +37,7 @@ function App() {
         {/* trang liên hệ */}
         <Route path="/booking" element={<OnlineBooking />} />{" "}
         <Route path="/profile" element={<Profile />} /> {/* trang profile */}
+        <Route path="/my-booking" element={<MyBooking />} />
         <Route path="/search/" element={<Search />} />
         {/* trang đặt lịch */}
         <Route path="/Login" element={<Login />} /> {/* trang login*/}

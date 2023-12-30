@@ -5,8 +5,6 @@ function Profile() {
   const storedUser = Cookies.get("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
-  console.log(user);
-
   return (
     <div>
       <Header />
