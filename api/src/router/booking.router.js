@@ -9,5 +9,5 @@ router.post('/api/booking/create', createBooking);
 
 // ADMIN
 router.get('/api/booking/list', verifyTokenByAdmin, getAllBooking);
-
+router.put('/api/booking/action', verifyTokenByAdmin, actionBooking);
 module.exports = router;

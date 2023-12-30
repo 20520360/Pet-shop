@@ -21,7 +21,18 @@ exports.createBooking = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
-
+exports.actionBooking = async (req, res) => {
+    try {
+        const { id, status } = req.body;
+        const bookingAction = await booking.findById(id);
+        bookingAction.status = status;
+        await bookingAction.save();
+        res.status(201).json({ message: 'Booking action successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
 
 /** 
 
