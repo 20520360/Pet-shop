@@ -23,7 +23,13 @@ const user = new Schema(
         isAdmin: {
             type: Boolean,
             default: false
-        }
+        },
+        myBooking: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Booking'
+            }
+        ]
     },
     {
         timestamps: true

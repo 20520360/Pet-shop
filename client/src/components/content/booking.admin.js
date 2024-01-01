@@ -6,29 +6,25 @@ import bookingAPI from "../api/booking.api";
 const ContentBooking = () => {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    const getFeedbacks = async () => {
-      try {
-        const bookingList = await bookingAPI.getAllBooking();
-        console.log(bookingList);
-        setBookings(bookingList);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getFeedbacks();
-  }, []);
-  const handleMouseEnter = (event) => {
-    const tooltip = event.target.nextSibling;
-    if (tooltip) {
-      tooltip.classList.add("opacity-100");
+  const getAllBooking = async () => {
+    try {
+      const bookingList = await bookingAPI.getAllBooking();
+      setBookings(bookingList);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const handleMouseLeave = (event) => {
-    const tooltip = event.target.nextSibling;
-    if (tooltip) {
-      tooltip.classList.remove("opacity-100");
+  useEffect(() => {
+    getAllBooking();
+  }, []);
+
+  const actionBooking = async (id, status) => {
+    try {
+      await bookingAPI.actionBooking(id, status);
+      await getAllBooking();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -82,6 +78,18 @@ const ContentBooking = () => {
                 >
                   Ghi chú
                 </th>
+                <th
+                  scope="col"
+                  className="text-sm font-lg text-white px-6 py-4"
+                >
+                  Trạng thái
+                </th>
+                <th
+                  scope="col"
+                  className="text-sm font-lg text-white px-6 py-4"
+                >
+                  #
+                </th>
               </tr>
             </thead>
             <tbody className="border-black border-b-2">
@@ -108,9 +116,37 @@ const ContentBooking = () => {
                     </td>
                     <td
                       className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap max-w-xs"
-                      title={booking.note}
+                      tooltip={booking.note}
                     >
                       <div className="truncate">{booking.note}</div>
+                    </td>
+                    <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap max-w-xs">
+                      <div className="truncate">{booking.status}</div>
+                    </td>
+                    <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap max-w-xs">
+                      {booking.status === "Đang chờ" ? (
+                        <>
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900"
+                            onClick={() =>
+                              actionBooking(booking._id, "Đã xác nhận")
+                            }
+                          >
+                            Chấp nhận
+                          </button>
+                          <span className="text-gray-400"> | </span>
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900"
+                            onClick={() =>
+                              actionBooking(booking._id, "Đã từ chối")
+                            }
+                          >
+                            Từ chối
+                          </button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 ))

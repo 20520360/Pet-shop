@@ -24,6 +24,7 @@ import Search from "./components/page/Search.js";
 import Profile from "./components/page/Profile.js";
 import ViewPurchase from "./components/page/ViewPurchase.js";
 export const CartContext = createContext("CartContext");
+import MyBooking from "./components/page/my-booking.js";
 function App() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(() => {

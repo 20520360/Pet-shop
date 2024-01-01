@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import bookingAPI from "../api/booking.api";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function Booking() {
   const [serviceName, setServiceName] = useState("Tắm - Vệ Sinh Tại Nhà");
@@ -14,7 +15,8 @@ function Booking() {
   const [weightAnimal, setWeightAnimal] = useState("");
   const [note, setNote] = useState("");
   const navigate = useNavigate();
-
+  const storedUser = Cookies.get("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
   const bookingService = async (e) => {
     e.preventDefault();
     try {
@@ -29,11 +31,11 @@ function Booking() {
         ageAnimal,
         weightAnimal,
         note,
+        status: "Đang chờ",
+        username: user ? user.username : null
       };
-      console.log(item);
       bookingAPI.createBooking(item, navigate);
     } catch (error) {
-      console.error(error);
     }
   };
 
